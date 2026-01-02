@@ -1,0 +1,182 @@
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: var(--header-height);
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.eyebrow {
+    color: var(--secondary);
+    /* Pink for the eyebrow */
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: block;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.title {
+    font-size: 5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    /* Reduced from 800 */
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.description {
+    font-size: 1.3rem;
+    color: #a0a0a0;
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.primaryBtn {
+    background: var(--primary);
+    color: #000;
+    /* Black text on bright green looks cool */
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px -10px var(--primary-dim);
+    /* Glow effect */
+}
+
+.primaryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -10px var(--primary);
+}
+
+.secondaryBtn {
+    border: 2px solid var(--border);
+    /* Thicker border */
+    color: var(--foreground);
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.2s;
+    background: transparent;
+}
+
+.secondaryBtn:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    background: rgba(255, 121, 198, 0.05);
+}
+
+.blob {
+    position: absolute;
+    top: 50%;
+    right: -10%;
+    transform: translateY(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle at center, var(--accent), transparent 60%);
+    opacity: 0.15;
+    filter: blur(80px);
+    /* Less blur for more shape */
+    z-index: 1;
+}
+
+.blob2 {
+    position: absolute;
+    top: -15%;
+    left: -15%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle at center, var(--primary), transparent 60%);
+    opacity: 0.1;
+    filter: blur(80px);
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .gridContainer {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .content {
+        order: 2;
+    }
+
+    .imageWrapper {
+        order: 1;
+        justify-content: center;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.imageWrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.profileImage {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 30px;
+    /* Soft roundness */
+    box-shadow: 20px 20px 60px -10px rgba(0, 0, 0, 0.5);
+    /* Deep shadow */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
+    transform: rotate(2deg);
+    /* Fun tilt */
+    transition: transform 0.3s ease;
+}
+
+.profileImage:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.imageBackgroundBlob {
+    position: absolute;
+    top: 10%;
+    right: -10%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, var(--primary-dim) 0%, transparent 60%);
+    opacity: 0.2;
+    z-index: 1;
+    filter: blur(40px);
+}

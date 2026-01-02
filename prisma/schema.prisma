@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String // Hashed
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  type        String // professional, coding, youtube, website
+  imageUrl    String
+  techStack   String // JSON string of tags
+  links       String // JSON string { github, youtube, website }
+  startDate   DateTime?
+  endDate     DateTime?
+  isFeatured  Boolean  @default(false)
+  status      String   @default("draft") // draft, published, archived
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  summary     String
+  content     String   // Rich text content
+  coverImage  String?
+  readTime    Int      // in minutes
+  viewCount   Int      @default(0)
+  status      String   @default("draft") // draft, published, archived
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Subscriber {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  source    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Newsletter {
+  id             String   @id @default(uuid())
+  subject        String
+  previewText    String?
+  content        String
+  status         String   @default("draft") // draft, sent
+  sentAt         DateTime?
+  recipientCount Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Visit {
+  id        String   @id @default(uuid())
+  ip        String?
+  page      String
+  device    String?
+  country   String?
+  city      String?
+  createdAt DateTime @default(now())
+}
