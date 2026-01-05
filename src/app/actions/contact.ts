@@ -19,7 +19,7 @@ export async function sendMessage(prevState: any, formData: FormData) {
     const result = ContactSchema.safeParse(data)
 
     if (!result.success) {
-        return { error: result.error.errors[0].message }
+        return { error: result.error.issues[0].message }
     }
 
     try {

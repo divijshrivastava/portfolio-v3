@@ -9,10 +9,6 @@ export default async function Navbar() {
   return (
     <nav className={`${styles.nav} glass-panel`}>
       <div className={`container ${styles.navContainer}`}>
-        <Link href="/" className={styles.logo}>
-          AN<span className="text-gradient">TIGRAVITY</span>
-        </Link>
-
         <div className={styles.links}>
           <Link href="/projects" className={styles.link}>Projects</Link>
           <Link href="/blog" className={styles.link}>Blog</Link>
