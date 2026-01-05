@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { normalizeImageUrl } from '@/lib/images';
 
 export const revalidate = 60;
 
@@ -14,6 +15,8 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         notFound();
     }
 
+    const coverImageUrl = normalizeImageUrl(blog.coverImage);
+
     return (
         <article className="container section-padding" style={{ paddingTop: '150px', maxWidth: '800px' }}>
             <Link href="/blog" style={{ display: 'inline-block', marginBottom: '2rem', color: '#888', textDecoration: 'none' }}>
@@ -21,11 +24,11 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
             </Link>
 
             <header style={{ marginBottom: '3rem' }}>
-                {blog.coverImage && (
+                {coverImageUrl && (
                     <div style={{
                         width: '100%',
                         height: '400px',
-                        background: `url(${blog.coverImage}) center/cover no-repeat`,
+                        background: `url(${coverImageUrl}) center/cover no-repeat`,
                         borderRadius: '16px',
                         marginBottom: '2rem',
                         border: '1px solid rgba(255,255,255,0.1)'

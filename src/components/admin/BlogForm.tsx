@@ -90,10 +90,14 @@ export default function BlogForm({ post }: { post?: any }) {
                         <label style={{ display: 'block', marginBottom: '0.5rem', color: '#888' }}>Cover Image URL</label>
                         <input
                             name="coverImage"
+                            type="url"
                             defaultValue={post?.coverImage}
-                            placeholder="/images/blog/cover.jpg"
+                            placeholder="https://images.unsplash.com/photo-... or /images/blog/cover.jpg"
                             style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'white', borderRadius: '6px' }}
                         />
+                        <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#666' }}>
+                            Use a full URL (https://...) or a path starting with / for local images
+                        </p>
                     </div>
                 </div>
 

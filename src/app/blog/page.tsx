@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/db';
+import { normalizeImageUrl } from '@/lib/images';
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -19,7 +20,9 @@ export default async function BlogIndex() {
             </div>
 
             <div style={{ display: 'grid', gap: '2rem' }}>
-                {blogs.map(blog => (
+                {blogs.map(blog => {
+                    const coverImageUrl = normalizeImageUrl(blog.coverImage);
+                    return (
                     <Link href={`/blog/${blog.slug}`} key={blog.id} className="glass-panel" style={{
                         borderRadius: '16px',
                         display: 'flex',
@@ -29,10 +32,10 @@ export default async function BlogIndex() {
                         border: '1px solid rgba(255,255,255,0.05)',
                         textDecoration: 'none'
                     }}>
-                        {blog.coverImage && (
+                        {coverImageUrl && (
                             <div style={{
                                 flex: '0 0 300px',
-                                background: `url(${blog.coverImage}) center/cover no-repeat`,
+                                background: `url(${coverImageUrl}) center/cover no-repeat`,
                                 minHeight: '250px'
                             }} className="blog-cover-image" />
                         )}
@@ -63,7 +66,8 @@ export default async function BlogIndex() {
                             </div>
                         </div>
                     </Link>
-                ))}
+                    );
+                })}
                 {blogs.length === 0 && (
                     <div style={{ textAlign: 'center', padding: '4rem', color: '#888' }}>
                         No blog posts found. Check back soon!
