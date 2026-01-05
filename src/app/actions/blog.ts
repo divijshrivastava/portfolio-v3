@@ -28,12 +28,13 @@ export async function getBlog(id: string) {
 }
 
 export async function createBlog(formData: FormData) {
+    const coverImage = formData.get('coverImage') as string | null
     const data = {
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
         summary: formData.get('summary') as string,
         content: formData.get('content') as string,
-        coverImage: formData.get('coverImage') as string,
+        coverImage: coverImage || null,
         status: formData.get('status') as any,
         readTime: parseInt(formData.get('readTime') as string || '5')
     }
@@ -48,6 +49,7 @@ export async function createBlog(formData: FormData) {
             data
         })
     } catch (e) {
+        console.error('Create blog error:', e)
         return { error: 'Failed to create blog. Slug might be taken.' }
     }
 
@@ -56,12 +58,13 @@ export async function createBlog(formData: FormData) {
 }
 
 export async function updateBlog(id: string, formData: FormData) {
+    const coverImage = formData.get('coverImage') as string | null
     const data = {
         title: formData.get('title') as string,
         slug: formData.get('slug') as string,
         summary: formData.get('summary') as string,
         content: formData.get('content') as string,
-        coverImage: formData.get('coverImage') as string,
+        coverImage: coverImage || null,
         status: formData.get('status') as any,
         readTime: parseInt(formData.get('readTime') as string || '5')
     }
@@ -72,6 +75,7 @@ export async function updateBlog(id: string, formData: FormData) {
             data
         })
     } catch (e) {
+        console.error('Update blog error:', e)
         return { error: 'Failed to update blog' }
     }
 

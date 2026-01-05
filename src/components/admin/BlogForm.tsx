@@ -12,16 +12,24 @@ export default function BlogForm({ post }: { post?: any }) {
 
     async function handleSubmit(formData: FormData) {
         setLoading(true)
-        // Set the coverImage from state if it was uploaded
-        if (coverImageUrl) {
-            formData.set('coverImage', coverImageUrl)
+        try {
+            // Set the coverImage from state if it was uploaded
+            if (coverImageUrl) {
+                formData.set('coverImage', coverImageUrl)
+            } else {
+                formData.delete('coverImage')
+            }
+            
+            if (post) {
+                await updateBlog(post.id, formData)
+            } else {
+                await createBlog(formData)
+            }
+        } catch (error) {
+            console.error('Submit error:', error)
+            alert('Failed to save blog post. Please try again.')
+            setLoading(false)
         }
-        if (post) {
-            await updateBlog(post.id, formData)
-        } else {
-            await createBlog(formData)
-        }
-        setLoading(false)
     }
 
     async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
