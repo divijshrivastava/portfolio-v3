@@ -5,11 +5,20 @@ import { prisma } from '@/lib/db';
 export const revalidate = 0; // Dynamic data
 
 export default async function AdminDashboard() {
-    const [projectCount, blogCount, messageCount] = await Promise.all([
-        prisma.project.count(),
-        prisma.blog.count(),
-        prisma.message.count(),
-    ])
+    let projectCount = 0
+    let blogCount = 0
+    let messageCount = 0
+
+    try {
+        [projectCount, blogCount, messageCount] = await Promise.all([
+            prisma.project.count(),
+            prisma.blog.count(),
+            prisma.message.count(),
+        ])
+    } catch (error) {
+        console.error('Database error:', error)
+        // Database might not be initialized yet
+    }
 
     return (
         <div className="container" style={{ padding: '40px 20px', paddingTop: '120px' }}>
