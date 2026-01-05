@@ -1,19 +1,52 @@
 'use client'
 
 import { createBlog, updateBlog } from '@/app/actions/blog'
+import { uploadImage } from '@/app/actions/upload'
 import { useState } from 'react'
 
 export default function BlogForm({ post }: { post?: any }) {
     const [loading, setLoading] = useState(false)
+    const [uploading, setUploading] = useState(false)
+    const [coverImageUrl, setCoverImageUrl] = useState(post?.coverImage || '')
+    const [preview, setPreview] = useState<string | null>(post?.coverImage || null)
 
     async function handleSubmit(formData: FormData) {
         setLoading(true)
+        // Set the coverImage from state if it was uploaded
+        if (coverImageUrl) {
+            formData.set('coverImage', coverImageUrl)
+        }
         if (post) {
             await updateBlog(post.id, formData)
         } else {
             await createBlog(formData)
         }
         setLoading(false)
+    }
+
+    async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        setUploading(true)
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const result = await uploadImage(formData)
+        
+        if (result.success && result.url) {
+            setCoverImageUrl(result.url)
+            setPreview(result.url)
+        } else {
+            alert(result.error || 'Upload failed')
+        }
+        setUploading(false)
+    }
+
+    function handleUrlChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const url = e.target.value
+        setCoverImageUrl(url)
+        setPreview(url || null)
     }
 
     return (
@@ -87,17 +120,60 @@ export default function BlogForm({ post }: { post?: any }) {
                         />
                     </div>
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', color: '#888' }}>Cover Image URL</label>
-                        <input
-                            name="coverImage"
-                            type="url"
-                            defaultValue={post?.coverImage}
-                            placeholder="https://images.unsplash.com/photo-... or /images/blog/cover.jpg"
-                            style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'white', borderRadius: '6px' }}
-                        />
-                        <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#666' }}>
-                            Use a full URL (https://...) or a path starting with / for local images
-                        </p>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', color: '#888' }}>Cover Image</label>
+                        
+                        {/* File Upload */}
+                        <div style={{ marginBottom: '1rem' }}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileUpload}
+                                disabled={uploading}
+                                style={{ 
+                                    width: '100%', 
+                                    padding: '0.8rem', 
+                                    background: 'rgba(255,255,255,0.03)', 
+                                    border: '1px solid var(--border)', 
+                                    color: 'white', 
+                                    borderRadius: '6px',
+                                    cursor: uploading ? 'not-allowed' : 'pointer'
+                                }}
+                            />
+                            {uploading && (
+                                <p style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: '#888' }}>
+                                    Uploading...
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Or URL Input */}
+                        <div style={{ marginBottom: '1rem' }}>
+                            <p style={{ marginBottom: '0.5rem', fontSize: '0.85rem', color: '#666', textAlign: 'center' }}>
+                                OR
+                            </p>
+                            <input
+                                type="url"
+                                value={coverImageUrl}
+                                onChange={handleUrlChange}
+                                placeholder="https://images.unsplash.com/photo-... or /images/blog/cover.jpg"
+                                style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'white', borderRadius: '6px' }}
+                            />
+                            <input type="hidden" name="coverImage" value={coverImageUrl} />
+                        </div>
+
+                        {/* Preview */}
+                        {preview && (
+                            <div style={{ marginTop: '1rem' }}>
+                                <p style={{ marginBottom: '0.5rem', fontSize: '0.85rem', color: '#888' }}>Preview:</p>
+                                <div style={{
+                                    width: '100%',
+                                    height: '200px',
+                                    background: `url(${preview}) center/cover no-repeat`,
+                                    borderRadius: '8px',
+                                    border: '1px solid var(--border)'
+                                }} />
+                            </div>
+                        )}
                     </div>
                 </div>
 
