@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:divij.tech)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:asmussen.tech)",
+      "Bash(npx create-next-app@latest:*)"
+    ]
+  }
+}
