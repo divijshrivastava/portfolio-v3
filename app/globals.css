@@ -345,6 +345,31 @@
   @apply border-l-4 border-primary pl-4 my-4 italic;
 }
 
+/* ── VS Code theme (scoped to home page) ── */
+.vscode-theme {
+  --vsc-editor-bg: #1e1e2e;
+  --vsc-sidebar-bg: #181825;
+  --vsc-titlebar-bg: #11111b;
+  --vsc-border: #313244;
+  --vsc-text: #cdd6f4;
+  --vsc-muted: #6c7086;
+  --vsc-accent-cyan: #89dceb;
+  --vsc-accent-pink: #f38ba8;
+  --vsc-accent-yellow: #f9e2af;
+  --vsc-accent-green: #a6e3a1;
+  --vsc-accent-blue: #89b4fa;
+  --vsc-accent-purple: #cba6f7;
+}
+
+/* Hide scrollbar on tab bar */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Terminal cursor blink ── */
 @keyframes blink {
   0%, 100% { opacity: 1; }

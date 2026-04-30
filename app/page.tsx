@@ -1,12 +1,5 @@
-import { SiteHeader } from '@/components/site-header';
-import { Hero } from '@/components/sections/hero';
-import { ImpactNumbers } from '@/components/sections/impact-numbers';
-import { SystemsList, type SystemItem } from '@/components/sections/systems-list';
-import { HowIThink } from '@/components/sections/how-i-think';
-import { Writing, type WritingPost } from '@/components/sections/writing';
-import { Toolkit } from '@/components/sections/toolkit';
-import { CloseCTA } from '@/components/sections/close-cta';
-import { ScrollReveal } from '@/components/scroll-reveal';
+import { VSCodeEditor } from '@/components/vscode/vscode-editor';
+import type { SystemItem, WritingPost } from '@/components/vscode/types';
 import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 3600;
@@ -46,32 +39,7 @@ export default async function Home() {
     readTime: b.read_time ?? undefined,
   }));
 
-  return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto max-w-[720px] px-6">
-        <Hero />
-        <ScrollReveal>
-          <ImpactNumbers />
-        </ScrollReveal>
-        <ScrollReveal>
-          <SystemsList systems={systems} />
-        </ScrollReveal>
-        <ScrollReveal>
-          <HowIThink />
-        </ScrollReveal>
-        <ScrollReveal>
-          <Writing posts={posts} />
-        </ScrollReveal>
-        <ScrollReveal>
-          <Toolkit />
-        </ScrollReveal>
-        <ScrollReveal>
-          <CloseCTA />
-        </ScrollReveal>
-      </main>
-    </>
-  );
+  return <VSCodeEditor systems={systems} posts={posts} />;
 }
 
 function formatDateRange(start: string | null, end: string | null): string {
