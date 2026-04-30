@@ -1,26 +1,366 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* ── V3 palette (light defaults) ── */
+  --color-background: #FAFAFA;
+  --color-foreground: #171717;
+  --color-surface: #FFFFFF;
+  --color-muted-fg: #6B7280;
+  --color-brand: #059669;
+  --color-border: #E5E7EB;
+
+  /* ── shadcn-compatible tokens (mapped to v3 palette) ── */
+  --color-primary: #2563EB;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #F3F4F6;
+  --color-secondary-foreground: #171717;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #171717;
+
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #171717;
+
+  --color-muted: #F3F4F6;
+  --color-muted-foreground: #6B7280;
+
+  --color-accent: #F3F4F6;
+  --color-accent-foreground: #171717;
+
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #FFFFFF;
+
+  --color-input: #E5E7EB;
+  --color-ring: #2563EB;
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  .dark {
+    --color-background: #0A0A0A;
+    --color-foreground: #EDEDED;
+    --color-surface: #141414;
+    --color-muted-fg: #6B7280;
+    --color-brand: #34d399;
+    --color-border: #262626;
+
+    --color-primary: #3B82F6;
+    --color-primary-foreground: #0A0A0A;
+    --color-secondary: #1F2937;
+    --color-secondary-foreground: #EDEDED;
+
+    --color-card: #141414;
+    --color-card-foreground: #EDEDED;
+
+    --color-popover: #141414;
+    --color-popover-foreground: #EDEDED;
+
+    --color-muted: #1F2937;
+    --color-muted-foreground: #9CA3AF;
+
+    --color-accent: #1F2937;
+    --color-accent-foreground: #EDEDED;
+
+    --color-destructive: #EF4444;
+    --color-destructive-foreground: #FFFFFF;
+
+    --color-input: #262626;
+    --color-ring: #3B82F6;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* ── Prose styles for blog content ── */
+.prose {
+  @apply text-foreground max-w-none;
+  filter: contrast(1.15);
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply font-bold mb-4 mt-8;
+}
+
+.prose h1 { @apply text-4xl; }
+.prose h2 { @apply text-3xl; }
+.prose h3 { @apply text-2xl; }
+.prose h4 { @apply text-xl; }
+
+.prose p {
+  @apply mb-4 leading-7;
+}
+
+.prose a {
+  @apply text-primary underline;
+}
+
+.prose a:hover {
+  @apply opacity-80;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-4 ml-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose code {
+  @apply bg-muted px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+  font-family: var(--font-geist-mono), 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+  line-height: 1.7;
+  filter: contrast(1.13);
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-foreground;
+  font-size: 0.9em;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.prose pre code *,
+.prose pre code span {
+  opacity: 1 !important;
+}
+
+.prose p,
+.prose p *,
+.prose span {
+  opacity: 1 !important;
+}
+
+.prose span[style*="color: rgb(2"],
+.prose span[style*="color: rgb(3"],
+.prose span[style*="color: #2"],
+.prose span[style*="color: #3"],
+.prose span[style*="color:#2"],
+.prose span[style*="color:#3"],
+.prose p span[style*="opacity: 0"],
+.prose div[style*="opacity: 0"],
+.prose span[style*="color:rgb(2"],
+.prose span[style*="color:rgb(3"] {
+  opacity: 1 !important;
+  color: oklch(30% 0.02 240) !important;
+}
+
+.prose span[style*="211"],
+.prose span[style*="221"],
+.prose span[style*="231"],
+.prose span[style*="color: #ddd"],
+.prose span[style*="color: #eee"],
+.prose span[style*="color:#ddd"],
+.prose span[style*="color:#eee"] {
+  color: oklch(40% 0.01 240) !important;
+}
+
+.prose span[style*="hsl(0,0%,80%"],
+.prose span[style*="hsl(0,0%,85%"],
+.prose span[style*="hsl(0,0%,90%"],
+.prose span[style*="hsl(0,0%,95%"],
+.prose p span[style*="hsl(0,0%,80%"],
+.prose p span[style*="hsl(0,0%,85%"],
+.prose p span[style*="hsl(0,0%,90%"],
+.prose p span[style*="hsl(0,0%,95%"] {
+  color: oklch(35% 0.01 240) !important;
+}
+
+.prose blockquote span[style*="hsl(0,0%,80%"],
+.prose blockquote span[style*="hsl(0,0%,85%"],
+.prose blockquote span[style*="hsl(0,0%,90%"],
+.prose blockquote span[style*="hsl(0,0%,95%"] {
+  color: oklch(30% 0.01 240) !important;
+}
+
+.dark .prose span[style*="color: rgb(2"],
+.dark .prose span[style*="color: rgb(3"],
+.dark .prose span[style*="211"],
+.dark .prose span[style*="221"] {
+  color: oklch(85% 0.02 240) !important;
+}
+
+.dark .prose span[style*="hsl(0,0%,80%"],
+.dark .prose span[style*="hsl(0,0%,85%"],
+.dark .prose span[style*="hsl(0,0%,90%"],
+.dark .prose span[style*="hsl(0,0%,95%"],
+.dark .prose blockquote span[style*="hsl(0,0%,80%"],
+.dark .prose blockquote span[style*="hsl(0,0%,85%"],
+.dark .prose blockquote span[style*="hsl(0,0%,90%"],
+.dark .prose blockquote span[style*="hsl(0,0%,95%"] {
+  color: oklch(80% 0.01 240) !important;
+}
+
+.prose pre code .hljs-comment,
+.prose pre code .hljs-quote {
+  @apply text-muted-foreground;
+  opacity: 0.8;
+}
+
+.prose pre code .hljs-keyword,
+.prose pre code .hljs-selector-tag,
+.prose pre code .hljs-built_in {
+  color: oklch(50% 0.15 230) !important;
+}
+
+.prose pre code .hljs-string,
+.prose pre code .hljs-title,
+.prose pre code .hljs-section,
+.prose pre code .hljs-type,
+.prose pre code .hljs-class {
+  color: oklch(50% 0.15 25) !important;
+}
+
+.prose pre code .hljs-variable,
+.prose pre code .hljs-attribute,
+.prose pre code .hljs-name {
+  color: oklch(40% 0.12 270) !important;
+}
+
+.prose pre code .hljs-number,
+.prose pre code .hljs-literal {
+  color: oklch(45% 0.12 140) !important;
+}
+
+.prose pre code .hljs-meta,
+.prose pre code .hljs-meta-keyword {
+  color: oklch(45% 0.10 180) !important;
+}
+
+.dark .prose pre code .hljs-keyword,
+.dark .prose pre code .hljs-selector-tag,
+.dark .prose pre code .hljs-built_in {
+  color: oklch(70% 0.15 230) !important;
+}
+
+.dark .prose pre code .hljs-string,
+.dark .prose pre code .hljs-title,
+.dark .prose pre code .hljs-section,
+.dark .prose pre code .hljs-type,
+.dark .prose pre code .hljs-class {
+  color: oklch(70% 0.15 25) !important;
+}
+
+.dark .prose pre code .hljs-variable,
+.dark .prose pre code .hljs-attribute,
+.dark .prose pre code .hljs-name {
+  color: oklch(75% 0.12 270) !important;
+}
+
+.dark .prose pre code .hljs-number,
+.dark .prose pre code .hljs-literal {
+  color: oklch(70% 0.12 140) !important;
+}
+
+.dark .prose pre code .hljs-meta,
+.dark .prose pre code .hljs-meta-keyword {
+  color: oklch(70% 0.10 180) !important;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-4;
+}
+
+.prose img {
+  @apply rounded-lg my-6;
+}
+
+.prose table {
+  @apply w-full border-collapse mb-4;
+}
+
+.prose th,
+.prose td {
+  @apply border border-border px-4 py-2;
+}
+
+.prose th {
+  @apply bg-muted font-semibold;
+}
+
+/* ── Tiptap Editor Styles (admin) ── */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-muted-foreground;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror img {
+  @apply max-w-full h-auto rounded-lg my-4;
+}
+
+.ProseMirror code {
+  @apply bg-muted px-1 py-0.5 rounded text-sm;
+}
+
+.ProseMirror pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto my-4;
+}
+
+.ProseMirror pre code {
+  @apply bg-transparent p-0;
+}
+
+.ProseMirror blockquote {
+  @apply border-l-4 border-primary pl-4 my-4 italic;
+}
+
+/* ── Terminal cursor blink ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Animate-in utility ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in;
 }
